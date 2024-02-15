@@ -35,30 +35,37 @@ public class User implements UserDetails {
     private String userEmail;
     private String userName;
     private String password;
+    private String newPassword;
+    private Boolean isUserApproved = false;
     @Enumerated(EnumType.STRING)
     private Role role;
 
     public User() {
     }
 
-    public User(Long userId, String name, String lastName, String userEmail, String userName, String password, Role role) {
+    public User(Long userId, String name, String lastName, String userEmail, String userName, String password, String newPassword, Boolean isUserApproved, Role role) {
         this.userId = userId;
         this.name = name;
         this.lastName = lastName;
         this.userEmail = userEmail;
         this.userName = userName;
         this.password = password;
+        this.newPassword = newPassword;
+        this.isUserApproved = isUserApproved;
         this.role = role;
     }
 
-    public User(String name, String lastName, String userEmail, String userName, String password, Role role) {
+    public User(String name, String lastName, String userEmail, String userName, String password, String newPassword, Boolean isUserApproved, Role role) {
         this.name = name;
         this.lastName = lastName;
         this.userEmail = userEmail;
         this.userName = userName;
         this.password = password;
+        this.newPassword = newPassword;
+        this.isUserApproved = isUserApproved;
         this.role = role;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

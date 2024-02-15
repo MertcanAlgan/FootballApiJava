@@ -19,6 +19,10 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        if (repository.findUserByUserName(request.getUserName()).isPresent()) {
+            throw new RuntimeException("Bu kullanıcı adı zaten kullanılıyor.");
+        }
+
         var user = User.builder()
                 .name(request.getName())
                 .lastName(request.getLastName())
@@ -26,6 +30,7 @@ public class AuthenticationService {
                 .userName(request.getUserName())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
+                .isUserApproved(false)
                 .build();
         repository.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -45,9 +50,13 @@ public class AuthenticationService {
         var user = repository.findUserByUserName(request.getUserName())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse
+
+        AuthenticationResponse response = AuthenticationResponse
                 .builder()
                 .token(jwtToken)
+                .userId(user.getUserId())
+                .isUserApproved(user.getIsUserApproved())
                 .build();
+        return response;
     }
 }
