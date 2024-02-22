@@ -1,6 +1,7 @@
 package org.example.tahmiinbackend.auth;
 
 import lombok.RequiredArgsConstructor;
+import org.example.tahmiinbackend.mail.EmailSenderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,13 +15,14 @@ public class AuthController {
 
 
     private final AuthenticationService service;
+    private final EmailSenderService emailSenderService;
 
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request
-    ){
-        return ResponseEntity.ok(service.register(request));
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
+        AuthenticationResponse response = service.register(request);
+        emailSenderService.sendActivationEmail(request.getUserEmail());
+        return ResponseEntity.ok(response);
     }
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(

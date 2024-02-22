@@ -23,10 +23,8 @@ public class TestingService {
 
     @Transactional
     public void fetchDataAndSaveToDatabase() {
-        // 1. Adım: API'den veri al
         Testing[] testDataArray = restTemplate.getForObject(EXTERNAL_API_URL, Testing[].class);
 
-        // 2. Adım: Verileri tabloya kaydet
         if (testDataArray != null) {
             testingRepository.saveAll(Arrays.asList(testDataArray));
 
