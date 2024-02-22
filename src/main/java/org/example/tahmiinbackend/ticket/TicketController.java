@@ -24,11 +24,11 @@ public class TicketController {
         Page<Ticket> tickets = ticketService.getTicketsByPage(pageNumber, size);
         return new ResponseEntity<>(tickets, HttpStatus.OK);
     }
-    @PostMapping("auth/ticket")
+    @PostMapping("auth/create-ticket")
     public void addNewTicket(@RequestBody Ticket ticket){
         ticketService.addNewTicket(ticket);
     }
-    @PostMapping("ticket/{ticketId}/solved")
+    @PostMapping("ticket/{ticketId}/solved-ticket")
     public ResponseEntity<String> setTicketSolved(@PathVariable Long ticketId){
         ticketService.setTicketSolved(ticketId);
         return ResponseEntity.ok("Ticket Çözüldü");

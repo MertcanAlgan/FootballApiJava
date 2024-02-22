@@ -38,6 +38,25 @@ public class EmailSenderService {
             System.out.println("User not found with email: " + toEmail);
         }
     }
+
+    public void sendForgotPasswordEmail(String toEmail, String forgotPasswordRequestToken) {
+        Optional<Long> userIdOptional = userService.getUserIdByUserEmail(toEmail);
+        if (userIdOptional.isPresent()){
+            Long userId = userIdOptional.get();
+            String forgotPasswordLink = "http://localhost:3000/sifremi-unuttum/" + forgotPasswordRequestToken + "/user/" + userId;
+
+            String subject = "Şifre Sıfırlama Talebi";
+            String body = "Merhaba,\n\n"
+                    + "Şifrenizi sıfırlamak için aşağıdaki linke tıklayabilirsiniz\n\n"
+                    + forgotPasswordLink + "\n\n"
+                    + "İyi günler dileriz!";
+
+            sendEmail(toEmail, subject, body);
+        } else {
+            System.out.println("User not found with email: " + toEmail);
+        }
+    }
+
     private void sendEmail(String toEmail, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("destek@tahmiin.com");

@@ -1,5 +1,6 @@
 package org.example.tahmiinbackend.user;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,9 +9,11 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -33,6 +36,18 @@ public class UserService {
             return Optional.of(user.getUserId());
         } else {
             return Optional.empty();
+        }
+    }
+
+    public void changePasswordByUserId(Long userId, String newPassword) {
+        Optional<User> optionalUser = userRepository.findUserByUserId(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            String encryptedPassword = passwordEncoder.encode(newPassword);
+            user.setPassword(encryptedPassword);
+            userRepository.save(user);
+        } else {
+            throw new IllegalStateException(userId + " böyle bir user bulunmuyor");
         }
     }
 }
