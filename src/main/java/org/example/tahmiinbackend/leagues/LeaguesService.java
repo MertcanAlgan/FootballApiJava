@@ -1,5 +1,7 @@
 package org.example.tahmiinbackend.leagues;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -10,7 +12,7 @@ import java.util.Optional;
 
 @Service
 public class LeaguesService {
-    private static final String EXTERNAL_API_URL = "https://notebook.batu.pl/get_leagues";
+    private static final String EXTERNAL_API_URL = "https://api.football-data-api.com/league-list?key=b4c96aa77c4b2329ef750b7d756ea708865bbaae3c257660ba39dfa013493d44";
     private final LeaguesRepository leagueRepository;
     private final RestTemplate restTemplate;
 
@@ -20,13 +22,20 @@ public class LeaguesService {
     }
     @Transactional
     public void fetchLeagueDataAndSaveToDatabase() {
-        Leagues[] leagueDataArray = restTemplate.getForObject(EXTERNAL_API_URL, Leagues[].class);
+        JsonNode response = restTemplate.getForObject(EXTERNAL_API_URL, JsonNode.class);
 
-        if (leagueDataArray != null) {
-            leagueRepository.saveAll(Arrays.asList(leagueDataArray));
-            System.out.println("Veri başarıyla alındı ve veritabanına kaydedildi!");
+        if (response != null && response.has("data")) {
+            JsonNode dataNode = response.get("data");
+            Leagues[] leagueDataArray = new ObjectMapper().convertValue(dataNode, Leagues[].class);
+
+            if (leagueDataArray != null) {
+                leagueRepository.saveAll(Arrays.asList(leagueDataArray));
+                System.out.println("Veri başarıyla alındı ve veritabanına kaydedildi!");
+            } else {
+                throw new RuntimeException("Veri alınamadı!");
+            }
         } else {
-            throw new RuntimeException("Veri alınamadı!");
+            throw new RuntimeException("Veri alınamadı veya 'data' kısmı bulunamadı!");
         }
     }
     public List<Leagues> getLeagueData() {
@@ -34,11 +43,5 @@ public class LeaguesService {
     }
     public Optional<Leagues> getLeagueDataById(Long league_id) {
         return leagueRepository.findLeaguesByLeagueId(league_id);
-    }
-    public Optional<Leagues> getLeagueDataBySeason(String league_season) {
-        return leagueRepository.findLeaguesByLeagueSeason(league_season);
-    }
-    public List<Leagues> getLeagueDataByCountryId(Long country_id) {
-        return leagueRepository.findLeaguesByCountryId(country_id);
     }
 }

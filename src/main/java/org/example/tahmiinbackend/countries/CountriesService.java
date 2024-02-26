@@ -1,5 +1,7 @@
 package org.example.tahmiinbackend.countries;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.tahmiinbackend.leagues.Leagues;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +12,7 @@ import java.util.List;
 
 @Service
 public class CountriesService {
-    private static final String EXTERNAL_API_URL = "https://notebook.batu.pl/get_countries";
+    private static final String EXTERNAL_API_URL = "https://api.football-data-api.com/country-list?key=b4c96aa77c4b2329ef750b7d756ea708865bbaae3c257660ba39dfa013493d44";
     private final CountriesRepository countriesRepository;
     private final RestTemplate restTemplate;
 
@@ -20,19 +22,21 @@ public class CountriesService {
     }
     @Transactional
     public void fetchCountriesDataAndSaveToDatabase() {
-        Countries[] countriesDataArray = restTemplate.getForObject(EXTERNAL_API_URL, Countries[].class);
-
-        if (countriesDataArray != null) {
-            countriesRepository.saveAll(Arrays.asList(countriesDataArray));
-            System.out.println("Veri başarıyla alındı ve veritabanına kaydedildi!");
-        } else {
-            throw new RuntimeException("Veri alınamadı!");
+        JsonNode response = restTemplate.getForObject(EXTERNAL_API_URL, JsonNode.class);
+        if (response != null && response.has("data")){
+            JsonNode dataNode = response.get("data");
+            Countries[] countriesDataArray = new ObjectMapper().convertValue(dataNode, Countries[].class);
+            if (countriesDataArray != null) {
+                countriesRepository.saveAll(Arrays.asList(countriesDataArray));
+                System.out.println("Data successfully fetched and saved to the database!");
+            } else {
+                throw new RuntimeException("Data could not be fetched!");
+            }
+        }else {
+            throw new RuntimeException("Data could not be fetched or 'data' part could not be found!");
         }
     }
     public List<Countries> getCountriesData() {
         return countriesRepository.findAll();
-    }
-    public Countries getCountriesDataById(Long country_id) {
-        return countriesRepository.findCountriesByCountryId(country_id).orElse(null);
     }
 }

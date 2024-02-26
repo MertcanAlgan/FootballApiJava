@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.tahmiinbackend.season.Season;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,31 +27,31 @@ public class Leagues {
             generator = "leagues_sequence"
     )
     private Long league_id;
-    private Long country_id;
-    private String country_name;
+    private String name;
+    private String country;
+    private String image;
     private String league_name;
-    private String league_logo;
-    private String country_logo;
-    private String league_season;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "league_id", referencedColumnName = "league_id")
+    private List<Season> season;
+
     public Leagues() {
     }
 
-    public Leagues(Long league_id, Long country_id, String country_name, String league_name, String league_logo, String country_logo, String league_season) {
+    public Leagues(Long league_id, String name, String country, String image, String league_name, List<Season> season) {
         this.league_id = league_id;
-        this.country_id = country_id;
-        this.country_name = country_name;
+        this.name = name;
+        this.country = country;
+        this.image = image;
         this.league_name = league_name;
-        this.league_logo = league_logo;
-        this.country_logo = country_logo;
-        this.league_season = league_season;
+        this.season = season;
     }
 
-    public Leagues(Long country_id, String country_name, String league_name, String league_logo, String country_logo, String league_season) {
-        this.country_id = country_id;
-        this.country_name = country_name;
+    public Leagues(String name, String country, String image, String league_name, List<Season> season) {
+        this.name = name;
+        this.country = country;
+        this.image = image;
         this.league_name = league_name;
-        this.league_logo = league_logo;
-        this.country_logo = country_logo;
-        this.league_season = league_season;
+        this.season = season;
     }
 }

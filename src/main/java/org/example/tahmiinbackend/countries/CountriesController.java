@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/auth/countries")
+@RequestMapping("/api")
 public class CountriesController {
     private final CountriesService countriesService;
     public CountriesController(CountriesService countriesService) {
@@ -18,12 +18,8 @@ public class CountriesController {
     public void fetchDataAndSaveToDatabase() {
         countriesService.fetchCountriesDataAndSaveToDatabase();
     }
-    @GetMapping("/get-countries")
+    @GetMapping("auth/countries/get-countries")
     public List<Countries> getCountriesData() {
         return countriesService.getCountriesData();
-    }
-    @GetMapping("/get-countries/{country_id}")
-    public Countries getCountriesDataById(@PathVariable Long country_id) {
-        return countriesService.getCountriesDataById(country_id);
     }
 }
