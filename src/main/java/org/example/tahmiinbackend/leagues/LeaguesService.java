@@ -29,7 +29,15 @@ public class LeaguesService {
             Leagues[] leagueDataArray = new ObjectMapper().convertValue(dataNode, Leagues[].class);
 
             if (leagueDataArray != null) {
-                leagueRepository.saveAll(Arrays.asList(leagueDataArray));
+                List<Leagues> existingLeagues = leagueRepository.findAll();
+
+                for (Leagues league : leagueDataArray) {
+                    boolean existsInDatabase = existingLeagues.stream()
+                            .anyMatch(existingLeague -> existingLeague.getLeague_id().equals(league.getLeague_id()));
+                    if (!existsInDatabase) {
+                        leagueRepository.save(league);
+                    }
+                }
                 System.out.println("Veri başarıyla alındı ve veritabanına kaydedildi!");
             } else {
                 throw new RuntimeException("Veri alınamadı!");
@@ -38,10 +46,17 @@ public class LeaguesService {
             throw new RuntimeException("Veri alınamadı veya 'data' kısmı bulunamadı!");
         }
     }
+
     public List<Leagues> getLeagueData() {
         return leagueRepository.findAll();
     }
     public Optional<Leagues> getLeagueDataById(Long league_id) {
         return leagueRepository.findLeaguesByLeagueId(league_id);
+    }
+    public List<Leagues> getLeaguesByCountry(String country){
+        return leagueRepository.findLeaguesByCountry(country);
+    }
+    public List<Leagues> getLeaguesByName(String name){
+        return leagueRepository.findLeaguesByName(name);
     }
 }
