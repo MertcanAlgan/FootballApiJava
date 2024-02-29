@@ -95,6 +95,8 @@ import java.util.List;
         "odds_comparison",
         "team_a_card_details",
         "team_b_card_details",
+        "GoalCount_2hg",
+        "HTGoalCount",
 })
 public class MatchDetails {
     @Id
@@ -107,6 +109,7 @@ public class MatchDetails {
     private String season;
     private String status;
     private Integer roundID;
+    private Integer game_week;
     private Integer homeGoalCount;
     private Integer awayGoalCount;
     private Integer totalGoalCount;
@@ -140,7 +143,6 @@ public class MatchDetails {
     private Integer ht_goals_team_b;
     private Integer goals_2hg_team_a;
     private Integer goals_2hg_team_b;
-    private Integer GoalCount_2hg;
     private Integer HTGoalCount;
     private Integer date_unix;
     private Integer winningTeam;
@@ -201,6 +203,7 @@ public class MatchDetails {
     private Double o15_potential;
     private Double o05_potential;
     private Double o05HT_potential;
+    private Double o15HT_potential;
     private Double o05_2H_potential;
     private Double o15_2H_potential;
     private Double corners_potential;
@@ -231,13 +234,13 @@ public class MatchDetails {
     private Integer competition_id;
     private Integer matches_completed_minimum;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "match_details_id", referencedColumnName = "match_details_id")
-    private List<MatchLineups> lineups;
+    private MatchLineups lineups;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "match_details_id", referencedColumnName = "match_details_id")
-    private List<MatchBench> bench;
+    private MatchBench bench;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "match_details_id", referencedColumnName = "match_details_id")

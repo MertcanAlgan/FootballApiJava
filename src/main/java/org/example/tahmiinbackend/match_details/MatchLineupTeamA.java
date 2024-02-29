@@ -1,10 +1,7 @@
 package org.example.tahmiinbackend.match_details;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,33 +9,23 @@ import java.util.List;
 @Setter
 @Data
 @Builder
+@AllArgsConstructor
 @Entity
 @Table
 public class MatchLineupTeamA {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "match_lineups_team_a_sequence")
-    @SequenceGenerator(name = "match_lineups_team_a_sequence", sequenceName = "match_lineups_team_a_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long match_lineups_team_a_id;
     private Integer player_id;
     private Integer shirt_number;
+    @ManyToOne
+    @JoinColumn(name = "match_lineups_id")
+    private MatchLineups matchLineups;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "match_lineups_team_a_id", referencedColumnName = "match_lineups_team_a_id")
     private List<PlayerEvents> player_events;
 
     public MatchLineupTeamA() {
-    }
-
-    public MatchLineupTeamA(Long match_lineups_team_a_id, Integer player_id, Integer shirt_number, List<PlayerEvents> player_events) {
-        this.match_lineups_team_a_id = match_lineups_team_a_id;
-        this.player_id = player_id;
-        this.shirt_number = shirt_number;
-        this.player_events = player_events;
-    }
-
-    public MatchLineupTeamA(Integer player_id, Integer shirt_number, List<PlayerEvents> player_events) {
-        this.player_id = player_id;
-        this.shirt_number = shirt_number;
-        this.player_events = player_events;
     }
 }

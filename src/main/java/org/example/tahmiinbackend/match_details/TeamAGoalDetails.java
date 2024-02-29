@@ -16,8 +16,7 @@ import lombok.Setter;
 @JsonIgnoreProperties({"extra" })
 public class TeamAGoalDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "team_a_goal_sequence")
-    @SequenceGenerator(name = "team_a_goal_sequence", sequenceName = "team_a_goal_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long team_a_goal_id;
     private Integer player_id;
     private String time;

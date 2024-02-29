@@ -14,8 +14,7 @@ import lombok.Setter;
 @Table
 public class PlayerEvents {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "player_events_sequence")
-    @SequenceGenerator(name = "player_events_sequence", sequenceName = "player_events_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long player_events_id;
     private String event_type;
     private String event_time;

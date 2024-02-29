@@ -1,10 +1,7 @@
 package org.example.tahmiinbackend.match_details;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,12 +9,12 @@ import java.util.List;
 @Setter
 @Data
 @Builder
+@AllArgsConstructor
 @Entity
 @Table
 public class MatchLineups {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "match_lineups_sequence")
-    @SequenceGenerator(name = "match_lineups_sequence", sequenceName = "match_lineups_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long match_lineups_id;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -29,16 +26,5 @@ public class MatchLineups {
     private List<MatchLineupTeamB> team_b;
 
     public MatchLineups() {
-    }
-
-    public MatchLineups(Long match_lineups_id, List<MatchLineupTeamA> team_a, List<MatchLineupTeamB> team_b) {
-        this.match_lineups_id = match_lineups_id;
-        this.team_a = team_a;
-        this.team_b = team_b;
-    }
-
-    public MatchLineups(List<MatchLineupTeamA> team_a, List<MatchLineupTeamB> team_b) {
-        this.team_a = team_a;
-        this.team_b = team_b;
     }
 }
