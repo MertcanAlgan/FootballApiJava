@@ -1,14 +1,12 @@
 package org.example.tahmiinbackend.season;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Data
+@AllArgsConstructor
 @Builder
 @Entity
 @Table
@@ -20,16 +18,5 @@ public class Season {
     private String year;
 
     public Season() {
-    }
-
-    public Season(Long seasons_id, Long id, String year) {
-        this.seasons_id = seasons_id;
-        this.id = id;
-        this.year = year;
-    }
-
-    public Season(Long id, String year) {
-        this.id = id;
-        this.year = year;
     }
 }
