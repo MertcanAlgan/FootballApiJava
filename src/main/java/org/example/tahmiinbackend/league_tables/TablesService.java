@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class TablesService {
 
-    private static final String EXTERNAL_API_URL = "https://api.football-data-api.com/league-tables?key=b4c96aa77c4b2329ef750b7d756ea708865bbaae3c257660ba39dfa013493d44&season_id=9655";
+    private static final String EXTERNAL_API_URL = "https://api.football-data-api.com/league-tables?key=***&season_id=9655";
 
     private final TablesRepository tablesRepository;
     private final RestTemplate restTemplate;

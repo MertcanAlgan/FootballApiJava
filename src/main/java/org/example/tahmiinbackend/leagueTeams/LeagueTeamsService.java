@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public class LeagueTeamsService {
-    private static final String EXTERNAL_API_URL = "https://api.football-data-api.com/league-teams?key=b4c96aa77c4b2329ef750b7d756ea708865bbaae3c257660ba39dfa013493d44&season_id=9655&include=stats";
+    private static final String EXTERNAL_API_URL = "https://api.football-data-api.com/league-teams?key=***&season_id=9655&include=stats";
 
     private final LeagueTeamsRepository leagueTeamsRepository;
     private final RestTemplate restTemplate;

@@ -20,8 +20,8 @@ public class MailConfig {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtppro.zoho.com");
         mailSender.setPort(587);
-        mailSender.setUsername("destek@tahmiin.com");
-        mailSender.setPassword("MertCan_00");
+        mailSender.setUsername("your@mail.com");
+        mailSender.setPassword("your_password");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

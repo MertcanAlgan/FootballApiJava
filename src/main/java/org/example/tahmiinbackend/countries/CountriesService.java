@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 public class CountriesService {
-    private static final String EXTERNAL_API_URL = "https://api.football-data-api.com/country-list?key=b4c96aa77c4b2329ef750b7d756ea708865bbaae3c257660ba39dfa013493d44";
+    private static final String EXTERNAL_API_URL = "https://api.football-data-api.com/country-list?key=***";
     private final CountriesRepository countriesRepository;
     private final RestTemplate restTemplate;
 

@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 @Service
 public class PlayerIndividualService {
-    private static final String EXTERNAL_API_URL = "https://api.football-data-api.com/player-stats?key=b4c96aa77c4b2329ef750b7d756ea708865bbaae3c257660ba39dfa013493d44&player_id=471122";
+    private static final String EXTERNAL_API_URL = "https://api.football-data-api.com/player-stats?key=***&player_id=471122";
     private final PlayerIndividualRepository playerIndividualRepository;
 
     private final RestTemplate restTemplate;

@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 @Service
 public class RefIndividualService {
-    private static final String EXTERNAL_API_URL = "https://api.football-data-api.com/referee?key=b4c96aa77c4b2329ef750b7d756ea708865bbaae3c257660ba39dfa013493d44&referee_id=207";
+    private static final String EXTERNAL_API_URL = "https://api.football-data-api.com/referee?key=***&referee_id=207";
     private final RefIndividualRepository refIndividualRepository;
 
     private final RestTemplate restTemplate;

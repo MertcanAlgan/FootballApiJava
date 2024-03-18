@@ -7,7 +7,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class Over25StatsService {
-    private static final String EXTERNAL_API_URL = "https://api.football-data-api.com/stats-data-over25?key=b4c96aa77c4b2329ef750b7d756ea708865bbaae3c257660ba39dfa013493d44";
+    private static final String EXTERNAL_API_URL = "https://api.football-data-api.com/stats-data-over25?key=***";
 
     private final Over25StatsRepository over25StatsRepository;
 
